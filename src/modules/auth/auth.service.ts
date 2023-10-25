@@ -19,7 +19,8 @@ export class AuthService {
   ) {}
 
   async login(loginDto: LoginDto): Promise<UserResponseDto> {
-    const user: UserResponseDto = await this.findUserAuth(loginDto);
+    const { email, password } = loginDto;
+    const user: UserResponseDto = await this.findUserAuth(email, password);
     if (!user) {
       new CommonException(statusCodeRes.UN_AUTHORIZED, authMsg.unAuthorized);
     }
@@ -30,8 +31,10 @@ export class AuthService {
     return result;
   }
 
-  async findUserAuth(loginDto: LoginDto): Promise<UserResponseDto | null> {
-    const { password, email } = loginDto;
+  async findUserAuth(
+    email: string,
+    password: string,
+  ): Promise<UserResponseDto | null> {
     const passwordEncryt = cryptoPassWord(password);
     const result = await this.usersRepository.findOneBy({
       email,
