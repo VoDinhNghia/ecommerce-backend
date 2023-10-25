@@ -6,6 +6,7 @@ import { Response } from 'express';
 import { userController } from 'src/constants/constants.controller.name';
 import { userMsg } from 'src/constants/constants.message.response';
 import { CreateUserDto } from './dtos/users.create.dto';
+import { cryptoPassWord } from 'src/constants/constants.crypto';
 
 @Controller(userController.name)
 @ApiTags(userController.tag)
@@ -14,7 +15,7 @@ export class UsersController {
   constructor(private service: UsersService) {
     const userDto: CreateUserDto = {
       email: 'vodinhnghia85@gmail.com',
-      password: 'admin123@',
+      password: cryptoPassWord('admin123@'),
       mobile: '0365572875',
       middleName: '',
       firstName: 'Admin',

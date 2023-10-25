@@ -4,9 +4,10 @@ import { ResponseRequest } from 'src/utils/utils.response-api';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dtos/auth.login.dto';
 import { authMsg } from 'src/constants/constants.message.response';
+import { authController } from 'src/constants/constants.controller.name';
 
-@Controller('api/auth')
-@ApiTags('auth')
+@Controller(authController.name)
+@ApiTags(authController.tag)
 export class AuthController {
   private readonly logger = new Logger(AuthController.name);
   constructor(private authService: AuthService) {}
@@ -17,7 +18,7 @@ export class AuthController {
     @Res() res: Response,
   ): Promise<ResponseRequest> {
     this.logger.log('api login');
-    const checkUser = await this.authService.login(loginDto);
-    return new ResponseRequest(res, checkUser, authMsg.login);
+    const result = await this.authService.login(loginDto);
+    return new ResponseRequest(res, result, authMsg.login);
   }
 }
