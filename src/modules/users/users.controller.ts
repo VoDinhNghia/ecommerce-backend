@@ -6,22 +6,15 @@ import { Response } from 'express';
 import { userController } from 'src/constants/constants.controller.name';
 import { userMsg } from 'src/constants/constants.message.response';
 import { CreateUserDto } from './dtos/users.create.dto';
-import { cryptoPassWord } from 'src/constants/constants.crypto';
+import { initAdminInfo } from 'src/constants/constant';
+import { logMsg } from 'src/constants/constants.log-message';
 
 @Controller(userController.name)
 @ApiTags(userController.tag)
 export class UsersController {
   private readonly logger = new Logger(UsersService.name);
   constructor(private service: UsersService) {
-    const userDto: CreateUserDto = {
-      email: 'vodinhnghia85@gmail.com',
-      password: cryptoPassWord('admin123@'),
-      mobile: '0365572875',
-      middleName: '',
-      firstName: 'Admin',
-      lastName: 'Super',
-      address: 'Binh Hiep - Binh Son - Quang Ngai',
-    };
+    const userDto: CreateUserDto = initAdminInfo;
     (async () => {
       await this.service.initSuperAdmin(userDto);
     })();
@@ -29,7 +22,7 @@ export class UsersController {
 
   @Post()
   async migrateUsersData(@Res() res: Response): Promise<ResponseRequest> {
-    this.logger.log('api create user');
+    this.logger.log(logMsg.apiCreateUser);
     return new ResponseRequest(res, true, userMsg.create);
   }
 }
