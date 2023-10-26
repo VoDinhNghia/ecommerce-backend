@@ -1,8 +1,10 @@
+import { FindOperator } from 'typeorm';
+
 export interface IqueryUser {
-  firstName?: any;
+  firstName?: FindOperator<string>;
   isDeleted?: boolean;
-  middleName?: any;
-  lastName?: any;
+  middleName?: FindOperator<string>;
+  lastName?: FindOperator<string>;
 }
 
 export type IqueryBySearchKey = IqueryUser[];
