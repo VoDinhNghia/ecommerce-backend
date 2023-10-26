@@ -32,9 +32,6 @@ export class UserResponseDto {
   avatar?: string;
 
   @ApiProperty()
-  password?: string;
-
-  @ApiProperty()
   role?: string;
 
   @ApiProperty()

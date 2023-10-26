@@ -5,6 +5,7 @@ import { AuthService } from './auth.service';
 import { LoginDto } from './dtos/auth.login.dto';
 import { authMsg } from 'src/constants/constants.message.response';
 import { authController } from 'src/constants/constants.controller.name';
+import { logMsg } from 'src/constants/constants.log-message';
 
 @Controller(authController.name)
 @ApiTags(authController.tag)
@@ -17,7 +18,7 @@ export class AuthController {
     @Body() loginDto: LoginDto,
     @Res() res: Response,
   ): Promise<ResponseRequest> {
-    this.logger.log('api login');
+    this.logger.log(logMsg.apiLogin);
     const result = await this.authService.login(loginDto);
     return new ResponseRequest(res, result, authMsg.login);
   }
