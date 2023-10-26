@@ -15,6 +15,7 @@ export enum EgenderUser {
 export const initAdminInfo = {
   email: 'vodinhnghia85@gmail.com',
   password: cryptoPassWord('admin123@'),
+  role: ErolesUser.SUPPER_ADMIN,
   mobile: '0365572875',
   middleName: '',
   firstName: 'Admin',
