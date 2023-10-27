@@ -1,5 +1,5 @@
 export const deleteDto = {
   isDeleted: true,
-  deletedAt: Date.now(),
-  updatedAt: Date.now(),
+  deletedAt: new Date(),
+  updatedAt: new Date(),
 };

@@ -40,7 +40,7 @@ export class Users {
   @Column({ default: ErolesUser.USER })
   role?: string;
 
-  @Column()
+  @Column({ unique: true })
   mobile?: string;
 
   @Column({ default: EgenderUser.MALE })

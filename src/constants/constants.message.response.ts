@@ -4,6 +4,8 @@ export const userMsg = {
   listUsers: 'Get list users success',
   existedEmail: 'Email existed in system',
   notFound: 'User not found',
+  passwordInvalid: 'current password invalid',
+  delete: 'Delete user success',
 };
 
 export const authMsg = {

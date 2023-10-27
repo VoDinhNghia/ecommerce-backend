@@ -13,6 +13,7 @@ import { UserQueryDto } from './dtos/users.query.dto';
 import { IqueryBySearchKey, IqueryUser } from './interfaces/users.interface';
 import { ErolesUser } from 'src/constants/constant';
 import { deleteDto } from 'src/utils/utils.delete.dto';
+import { cryptoPassWord } from 'src/constants/constants.crypto';
 
 @Injectable()
 export class UsersService {
@@ -33,7 +34,7 @@ export class UsersService {
   }
 
   async registerAccount(userDto: CreateUserDto): Promise<UserResponseDto> {
-    const { email } = userDto;
+    const { email, password } = userDto;
     const existedEmail = await this.usersRepository.findOneBy({
       email,
     });
@@ -43,6 +44,7 @@ export class UsersService {
     const result = await this.usersRepository.save({
       ...userDto,
       code: new GenerateCode().getCodeUser(7),
+      password: cryptoPassWord(password),
     });
     return result;
   }
@@ -58,10 +60,20 @@ export class UsersService {
   }
 
   async updateUser(id: string, updateDto: UsersUpdateDto): Promise<void> {
-    await this.findById(id);
+    const { password = '', newPassword } = updateDto;
+    if (password && newPassword) {
+      const validatePass = await this.usersRepository.findOneBy({
+        id: Equal(id),
+        password: cryptoPassWord(password),
+      });
+      if (!validatePass) {
+        new CommonException(statusCodeRes.FORBIDDEN, userMsg.passwordInvalid);
+      }
+      updateDto.password = cryptoPassWord(newPassword);
+    }
     const userUpdateDto = {
       ...updateDto,
-      updatedAt: Date.now(),
+      updatedAt: new Date(),
     };
     await this.usersRepository.update(id, userUpdateDto);
   }
@@ -77,6 +89,8 @@ export class UsersService {
         { ...query, firstName: Like(`%${searchKey}%`) },
         { ...query, lastName: Like(`%${searchKey}%`) },
         { ...query, middleName: Like(`%${searchKey}%`) },
+        { ...query, mobile: Like(`%${searchKey}%`) },
+        { ...query, email: Like(`%${searchKey}%`) },
       ];
     }
     const users = await this.usersRepository.find({
