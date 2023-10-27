@@ -5,6 +5,8 @@ export interface IqueryUser {
   isDeleted?: boolean;
   middleName?: FindOperator<string>;
   lastName?: FindOperator<string>;
+  mobile?: FindOperator<string>;
+  email?: FindOperator<string>;
 }
 
 export type IqueryBySearchKey = IqueryUser[];

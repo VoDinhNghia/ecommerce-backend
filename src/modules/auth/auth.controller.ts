@@ -6,6 +6,7 @@ import { LoginDto } from './dtos/auth.login.dto';
 import { authMsg } from 'src/constants/constants.message.response';
 import { authController } from 'src/constants/constants.controller.name';
 import { logMsg } from 'src/constants/constants.log-message';
+import { Response } from 'express';
 
 @Controller(authController.name)
 @ApiTags(authController.tag)

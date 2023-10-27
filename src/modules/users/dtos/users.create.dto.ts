@@ -4,8 +4,8 @@ import {
   IsOptional,
   IsString,
   IsEmail,
-  Max,
-  Min,
+  MaxLength,
+  MinLength,
 } from 'class-validator';
 
 export class CreateUserDto {
@@ -31,8 +31,8 @@ export class CreateUserDto {
 
   @IsString()
   @IsNotEmpty()
-  @Max(11)
-  @Min(10)
+  @MaxLength(11)
+  @MinLength(10)
   @ApiProperty()
   mobile: string;
 
@@ -43,7 +43,7 @@ export class CreateUserDto {
 
   @IsString()
   @IsNotEmpty()
-  @Min(6)
+  @MinLength(6)
   @ApiProperty()
   password: string;
 }
