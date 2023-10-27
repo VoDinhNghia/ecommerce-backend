@@ -4,17 +4,18 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import {
+  IhandleRequestJwtError,
+  IhandleRequestJwtUser,
+} from '../interfaces/auth.interface';
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {
   canActivate(context: ExecutionContext) {
-    // Add your custom authentication logic here
-    // for example, call super.logIn(request) to establish a session.
     return super.canActivate(context);
   }
 
-  handleRequest(err: any, user: any) {
-    // You can throw an exception based on either "info" or "err" arguments
+  handleRequest(err: IhandleRequestJwtError, user: IhandleRequestJwtUser) {
     if (err || !user) {
       throw err || new UnauthorizedException();
     }
