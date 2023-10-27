@@ -95,8 +95,8 @@ export class UsersService {
     }
     const users = await this.usersRepository.find({
       where: query,
-      skip: limit && page ? Number(limit) * Number(page) - Number(limit) : null,
-      take: limit || total,
+      skip: limit && page ? Number(limit) * (Number(page) - 1) : null,
+      take: limit ? Number(limit) : total,
     });
     return {
       results: users,

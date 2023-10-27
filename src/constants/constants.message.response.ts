@@ -12,3 +12,12 @@ export const authMsg = {
   login: 'Login success',
   unAuthorized: 'User or password incorrect',
 };
+
+export const categoryMsg = {
+  create: 'Create category success',
+  update: 'Update category success',
+  delete: 'Delete category success',
+  notFound: 'Category not found',
+  conflictName: 'Category name existed already',
+  gelist: 'Get list categories success',
+};
