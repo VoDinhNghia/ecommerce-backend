@@ -21,3 +21,12 @@ export const categoryMsg = {
   conflictName: 'Category name existed already',
   gelist: 'Get list categories success',
 };
+
+export const contactMsg = {
+  create: 'Create contact success',
+  update: 'Update contact success',
+  delete: 'Delete contact success',
+  notFound: 'Contact not found',
+  getList: 'Get list contact success',
+  getDetail: 'Get contact success',
+};

@@ -1,6 +1,11 @@
 import { EgenderUser, ErolesUser } from 'src/constants/constant';
 import { GenerateCode } from 'src/utils/utils.generate.code';
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  DeleteDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class Users {
@@ -13,10 +18,7 @@ export class Users {
   @Column({ type: 'datetime', default: () => 'NOW()' })
   updatedAt: Date;
 
-  @Column({ default: false })
-  isDeleted?: boolean;
-
-  @Column({ nullable: true })
+  @DeleteDateColumn({ nullable: true, type: 'datetime', select: false })
   deletedAt?: Date;
 
   @Column({ length: 200 })

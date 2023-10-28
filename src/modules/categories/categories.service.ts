@@ -7,7 +7,6 @@ import { CommonException } from 'src/exceptions/exeception.common-error';
 import { statusCodeRes } from 'src/constants/constants.http-status-code';
 import { categoryMsg } from 'src/constants/constants.message.response';
 import { UpdateCategoryDto } from './dtos/categories.update.dto';
-import { deleteDto } from 'src/utils/utils.delete.dto';
 import { QueryCategoryDto } from './dtos/categories.query.dto';
 import { IqueryCategory } from './interfaces/categories.interface';
 
@@ -47,16 +46,16 @@ export class CategoriesService {
   }
 
   async delete(id: string): Promise<void> {
-    await this.findById(id);
-    await this.categoryRepo.update(id, deleteDto);
+    const result = await this.findById(id);
+    await this.categoryRepo.softRemove(result);
   }
 
   async findAll(
     queryDto: QueryCategoryDto,
   ): Promise<{ results: Categories[]; total: number }> {
     const { limit, page, searchKey } = queryDto;
-    const query: IqueryCategory = { isDeleted: false };
-    const total = await this.categoryRepo.countBy(query);
+    const total = await this.categoryRepo.count();
+    const query: IqueryCategory = {};
     if (searchKey) {
       query.name = Like(`%${searchKey}%`);
     }
