@@ -1,10 +1,12 @@
 import { EgenderUser, ErolesUser } from 'src/constants/constant';
+import { ProductReview } from 'src/modules/products/entities/products.review.entity';
 import { GenerateCode } from 'src/utils/utils.generate.code';
 import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
   DeleteDateColumn,
+  OneToMany,
 } from 'typeorm';
 
 @Entity()
@@ -53,4 +55,9 @@ export class Users {
 
   @Column({ default: new GenerateCode().getCodeUser(7) })
   code?: string;
+
+  @OneToMany(() => ProductReview, (review) => review.user, {
+    cascade: ['soft-remove', 'recover'],
+  })
+  reviews?: ProductReview[];
 }
