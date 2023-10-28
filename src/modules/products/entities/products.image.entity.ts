@@ -12,7 +12,7 @@ export class ProductImages extends EntityBasic {
   @Column()
   url?: string;
 
-  @Column()
+  @Column({ default: false })
   isAvatar?: boolean;
 
   @ManyToOne(() => Products, (product) => product.images)
