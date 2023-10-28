@@ -22,3 +22,13 @@ export const initAdminInfo = {
   lastName: 'Super',
   address: 'Binh Hiep - Binh Son - Quang Ngai',
 };
+
+export enum EpaymentTypes {
+  CASH = 'CASH',
+}
+
+export enum EstatusOrder {
+  WAITTING = 'WAITTING',
+  DELIVERED = 'DELIVERD',
+  CANCLE = 'CANCLE',
+}
