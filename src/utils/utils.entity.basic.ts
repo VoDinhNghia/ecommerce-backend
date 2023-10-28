@@ -18,9 +18,6 @@ export class EntityBasic {
   @Column({ type: 'datetime', default: () => 'NOW()' })
   updatedAt: Date;
 
-  @DeleteDateColumn({ nullable: true })
+  @DeleteDateColumn({ nullable: true, type: 'datetime', select: false })
   deletedAt?: Date;
-
-  @Column({ default: false })
-  isDeleted?: boolean;
 }

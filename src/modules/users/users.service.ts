@@ -12,7 +12,6 @@ import { UsersUpdateDto } from './dtos/users.update.dto';
 import { UserQueryDto } from './dtos/users.query.dto';
 import { IqueryBySearchKey, IqueryUser } from './interfaces/users.interface';
 import { ErolesUser } from 'src/constants/constant';
-import { deleteDto } from 'src/utils/utils.delete.dto';
 import { cryptoPassWord } from 'src/constants/constants.crypto';
 
 @Injectable()
@@ -82,7 +81,7 @@ export class UsersService {
     queryDto: UserQueryDto,
   ): Promise<{ results: UserResponseDto[]; total: number }> {
     const { searchKey, limit, page } = queryDto;
-    let query: IqueryUser | IqueryBySearchKey = { isDeleted: false };
+    let query: IqueryUser | IqueryBySearchKey = {};
     const total = await this.usersRepository.countBy(query);
     if (searchKey) {
       query = [
@@ -105,7 +104,7 @@ export class UsersService {
   }
 
   async deleteUser(id: string): Promise<void> {
-    await this.findById(id);
-    await this.usersRepository.update(id, deleteDto);
+    const result = await this.findById(id);
+    await this.usersRepository.softRemove(result);
   }
 }
