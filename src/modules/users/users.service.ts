@@ -81,8 +81,8 @@ export class UsersService {
     queryDto: UserQueryDto,
   ): Promise<{ results: UserResponseDto[]; total: number }> {
     const { searchKey, limit, page } = queryDto;
+    const total = await this.usersRepository.count();
     let query: IqueryUser | IqueryBySearchKey = {};
-    const total = await this.usersRepository.countBy(query);
     if (searchKey) {
       query = [
         { ...query, firstName: Like(`%${searchKey}%`) },

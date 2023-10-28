@@ -54,8 +54,8 @@ export class CategoriesService {
     queryDto: QueryCategoryDto,
   ): Promise<{ results: Categories[]; total: number }> {
     const { limit, page, searchKey } = queryDto;
+    const total = await this.categoryRepo.count();
     const query: IqueryCategory = {};
-    const total = await this.categoryRepo.countBy(query);
     if (searchKey) {
       query.name = Like(`%${searchKey}%`);
     }
