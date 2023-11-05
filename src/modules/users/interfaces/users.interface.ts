@@ -7,6 +7,7 @@ export interface IqueryUser {
   lastName?: FindOperator<string>;
   mobile?: FindOperator<string>;
   email?: FindOperator<string>;
+  role?: FindOperator<string>;
 }
 
 export type IqueryBySearchKey = IqueryUser[];
