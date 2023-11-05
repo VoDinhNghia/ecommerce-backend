@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Equal, Like, Repository } from 'typeorm';
+import { Equal, Like, Not, Repository } from 'typeorm';
 import { Users } from './entities/user.entity';
 import { CreateUserDto } from './dtos/users.create.dto';
 import { UserResponseDto } from './dtos/users.response.dto';
@@ -81,8 +81,10 @@ export class UsersService {
     queryDto: UserQueryDto,
   ): Promise<{ results: UserResponseDto[]; total: number }> {
     const { searchKey, limit, page } = queryDto;
-    const total = await this.usersRepository.count();
-    let query: IqueryUser | IqueryBySearchKey = {};
+    let query: IqueryUser | IqueryBySearchKey = {
+      role: Not(ErolesUser.SUPPER_ADMIN),
+    };
+    const total = await this.usersRepository.count({ where: query });
     if (searchKey) {
       query = [
         { ...query, firstName: Like(`%${searchKey}%`) },
