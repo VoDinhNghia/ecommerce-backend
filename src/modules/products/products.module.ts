@@ -7,6 +7,7 @@ import { ProductDetail } from './entities/products.detail.entity';
 import { ProductReview } from './entities/products.review.entity';
 import { ProductImages } from './entities/products.image.entity';
 import { ProductDiscounts } from './entities/products.discount.entity';
+import { Categories } from '../categories/entities/categories.entity';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { ProductDiscounts } from './entities/products.discount.entity';
       ProductReview,
       ProductImages,
       ProductDiscounts,
+      Categories,
     ]),
   ],
   controllers: [ProductsController],

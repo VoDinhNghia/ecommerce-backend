@@ -30,3 +30,11 @@ export const contactMsg = {
   getList: 'Get list contact success',
   getDetail: 'Get contact success',
 };
+
+export const productMsg = {
+  createProduct: 'Create product success',
+  updateProduct: 'Update product success',
+  deleteProduct: 'Delete product success',
+  notFoundProduct: 'Product not found',
+  getListProduct: 'Get list product success',
+};
