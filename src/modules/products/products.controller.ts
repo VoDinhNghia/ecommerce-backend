@@ -22,6 +22,7 @@ import { ResponseRequest } from 'src/utils/utils.response-api';
 import { productMsg } from 'src/constants/constants.message.response';
 import { UpdateProductDto } from './dtos/products.update.dto';
 import { QueryProductDto } from './dtos/products.query.dto';
+import { CreateProductDetailDto } from './dtos/products.create-detail.dto';
 
 @Controller(productController.name)
 @ApiTags(productController.tag)
@@ -72,5 +73,30 @@ export class ProductsController {
   ): Promise<ResponseRequest> {
     const results = await this.service.findAllProducts(queryDto);
     return new ResponseRequest(res, results, productMsg.deleteProduct);
+  }
+
+  @Post('/detail')
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @UseGuards(RoleGuard([ErolesUser.SUPPER_ADMIN]))
+  async createDetail(
+    @Body() detailDto: CreateProductDetailDto,
+    @Res() res: Response,
+  ): Promise<ResponseRequest> {
+    const result = await this.service.createDetail(detailDto);
+    return new ResponseRequest(res, result, productMsg.createDetail);
+  }
+
+  @Put('/detail/:id')
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @UseGuards(RoleGuard([ErolesUser.SUPPER_ADMIN]))
+  async updateDetail(
+    @Param('id') id: string,
+    @Body() detailDto: CreateProductDetailDto,
+    @Res() res: Response,
+  ): Promise<ResponseRequest> {
+    await this.service.updateDetail(id, detailDto);
+    return new ResponseRequest(res, true, productMsg.updateDetail);
   }
 }
