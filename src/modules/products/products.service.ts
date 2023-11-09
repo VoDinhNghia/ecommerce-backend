@@ -155,8 +155,8 @@ export class ProductsService {
   }
 
   async deleteDiscount(id: string): Promise<void> {
-    const result = await this.findDiscountById(id);
-    await this.discountRepo.softRemove(result);
+    await this.findDiscountById(id);
+    await this.discountRepo.delete(id);
   }
 
   async validateCategory(categoryId: string): Promise<void> {
