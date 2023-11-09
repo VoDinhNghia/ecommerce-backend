@@ -40,4 +40,8 @@ export const productMsg = {
   createDetail: 'Create product detail success',
   updateDetail: 'Update product detail success',
   detailNotFound: 'Product detail not found',
+  createDiscount: 'Create product discount success',
+  updateDiscount: 'Update product discount success',
+  deleteDiscount: 'Delete product discount success',
+  notFoundDiscount: 'Product discount not found',
 };
