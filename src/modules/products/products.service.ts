@@ -19,6 +19,8 @@ import { QueryProductDto } from './dtos/products.query.dto';
 import { IqueryProduct } from './intefaces/products.inteface';
 import { CreateProductDetailDto } from './dtos/products.create-detail.dto';
 import { UpdateProductDetailDto } from './dtos/products.update-detail.dto';
+import { CreateProductDiscountDto } from './dtos/products.create-discount.dto';
+import { UpdateProductDiscount } from './dtos/products.update-discount.dto';
 
 @Injectable()
 export class ProductsService {
@@ -122,6 +124,39 @@ export class ProductsService {
       ...updateDto,
       updatedAt: new Date(),
     });
+  }
+
+  async createDiscount(
+    discountDto: CreateProductDiscountDto,
+  ): Promise<ProductDiscounts> {
+    const { productId } = discountDto;
+    await this.findProductById(productId);
+    const result = await this.discountRepo.save(discountDto);
+    return result;
+  }
+
+  async findDiscountById(id: string): Promise<ProductDiscounts> {
+    const result = await this.discountRepo.findOneBy({ id: Equal(id) });
+    if (!result) {
+      new CommonException(statusCodeRes.NOT_FOUND, productMsg.notFoundDiscount);
+    }
+    return result;
+  }
+
+  async updateDiscount(
+    id: string,
+    updateDto: UpdateProductDiscount,
+  ): Promise<void> {
+    await this.findDiscountById(id);
+    await this.discountRepo.update(id, {
+      ...updateDto,
+      updatedAt: new Date(),
+    });
+  }
+
+  async deleteDiscount(id: string): Promise<void> {
+    const result = await this.findDiscountById(id);
+    await this.discountRepo.softRemove(result);
   }
 
   async validateCategory(categoryId: string): Promise<void> {
