@@ -17,6 +17,8 @@ import {
 import { UpdateProductDto } from './dtos/products.update.dto';
 import { QueryProductDto } from './dtos/products.query.dto';
 import { IqueryProduct } from './intefaces/products.inteface';
+import { CreateProductDetailDto } from './dtos/products.create-detail.dto';
+import { UpdateProductDetailDto } from './dtos/products.update-detail.dto';
 
 @Injectable()
 export class ProductsService {
@@ -92,6 +94,34 @@ export class ProductsService {
       total,
       results,
     };
+  }
+
+  async createDetail(
+    detailDto: CreateProductDetailDto,
+  ): Promise<ProductDetail> {
+    const { productId } = detailDto;
+    await this.findProductById(productId);
+    const result = await this.detailRepo.save(detailDto);
+    return result;
+  }
+
+  async findDetailById(id: string): Promise<ProductDetail> {
+    const result = await this.detailRepo.findOneBy({ id: Equal(id) });
+    if (!result) {
+      new CommonException(statusCodeRes.NOT_FOUND, productMsg.detailNotFound);
+    }
+    return result;
+  }
+
+  async updateDetail(
+    id: string,
+    updateDto: UpdateProductDetailDto,
+  ): Promise<void> {
+    await this.findDetailById(id);
+    await this.detailRepo.update(id, {
+      ...updateDto,
+      updatedAt: new Date(),
+    });
   }
 
   async validateCategory(categoryId: string): Promise<void> {

@@ -37,4 +37,7 @@ export const productMsg = {
   deleteProduct: 'Delete product success',
   notFoundProduct: 'Product not found',
   getListProduct: 'Get list product success',
+  createDetail: 'Create product detail success',
+  updateDetail: 'Update product detail success',
+  detailNotFound: 'Product detail not found',
 };
