@@ -44,4 +44,12 @@ export const productMsg = {
   updateDiscount: 'Update product discount success',
   deleteDiscount: 'Delete product discount success',
   notFoundDiscount: 'Product discount not found',
+  createReview: 'Create product review success',
+  updateReview: 'Update product review success',
+  deleteReview: 'Delete product review success',
+  notFoundReview: 'Product review not found',
+  createRate: 'Create product rate success',
+  updateRate: 'Update product rate success',
+  deleteRate: 'Delete product rate success',
+  notFoundRate: 'Product rate not found',
 };

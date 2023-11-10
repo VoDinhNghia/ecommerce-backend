@@ -23,6 +23,7 @@ import { CreateProductDiscountDto } from './dtos/products.create-discount.dto';
 import { UpdateProductDiscount } from './dtos/products.update-discount.dto';
 import { CreateProductReview } from './dtos/products.create-review.dto';
 import { ProductRate } from './entities/products.rate.entity';
+import { UpdateProductReviewDto } from './dtos/products.update-review.dto';
 
 @Injectable()
 export class ProductsService {
@@ -172,6 +173,30 @@ export class ProductsService {
     await this.findProductById(productId);
     const result = await this.reviewRepo.save({ ...reviewDto, userId });
     return result;
+  }
+
+  async findReviewById(id: string): Promise<ProductReview> {
+    const result = await this.reviewRepo.findOneBy({ id: Equal(id) });
+    if (!result) {
+      new CommonException(statusCodeRes.NOT_FOUND, productMsg.notFoundReview);
+    }
+    return result;
+  }
+
+  async updateReview(
+    id: string,
+    updateDto: UpdateProductReviewDto,
+  ): Promise<void> {
+    await this.findReviewById(id);
+    await this.reviewRepo.update(id, {
+      ...updateDto,
+      updatedAt: new Date(),
+    });
+  }
+
+  async deleteReview(id: string): Promise<void> {
+    const result = await this.findReviewById(id);
+    await this.reviewRepo.softRemove(result);
   }
 
   async validateCategory(categoryId: string): Promise<void> {
