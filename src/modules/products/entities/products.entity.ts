@@ -12,6 +12,7 @@ import { ProductDetail } from './products.detail.entity';
 import { ProductReview } from './products.review.entity';
 import { ProductImages } from './products.image.entity';
 import { ProductDiscounts } from './products.discount.entity';
+import { ProductRate } from './products.rate.entity';
 
 @Entity()
 export class Products extends EntityBasic {
@@ -50,4 +51,9 @@ export class Products extends EntityBasic {
     cascade: ['soft-remove', 'recover'],
   })
   discounts?: ProductDiscounts[];
+
+  @ManyToOne(() => ProductRate, (rate) => rate?.product, {
+    cascade: ['soft-remove', 'recover'],
+  })
+  rates?: ProductRate[];
 }

@@ -1,5 +1,6 @@
 import { EgenderUser, ErolesUser } from 'src/constants/constant';
 import { OrdersMgt } from 'src/modules/orders/entities/orders.entity';
+import { ProductRate } from 'src/modules/products/entities/products.rate.entity';
 import { ProductReview } from 'src/modules/products/entities/products.review.entity';
 import { GenerateCode } from 'src/utils/utils.generate.code';
 import {
@@ -66,4 +67,9 @@ export class Users {
     cascade: ['soft-remove', 'recover'],
   })
   orders?: OrdersMgt[];
+
+  @OneToMany(() => ProductRate, (rate) => rate.user, {
+    cascade: ['soft-remove', 'recover'],
+  })
+  rates?: ProductRate[];
 }

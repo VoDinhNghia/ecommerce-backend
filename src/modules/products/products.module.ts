@@ -8,6 +8,7 @@ import { ProductReview } from './entities/products.review.entity';
 import { ProductImages } from './entities/products.image.entity';
 import { ProductDiscounts } from './entities/products.discount.entity';
 import { Categories } from '../categories/entities/categories.entity';
+import { ProductRate } from './entities/products.rate.entity';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { Categories } from '../categories/entities/categories.entity';
       ProductImages,
       ProductDiscounts,
       Categories,
+      ProductRate,
     ]),
   ],
   controllers: [ProductsController],
