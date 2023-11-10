@@ -4,15 +4,15 @@ import { Column, Entity, ManyToOne } from 'typeorm';
 import { Products } from './products.entity';
 
 @Entity({
-  name: 'product_reviews',
+  name: 'product_rate',
 })
-export class ProductReview extends EntityBasic {
+export class ProductRate extends EntityBasic {
   @Column()
-  content?: string;
+  rate?: number;
 
-  @ManyToOne(() => Users, (user) => user.reviews)
+  @ManyToOne(() => Users, (user) => user.rates)
   user?: Users;
 
-  @ManyToOne(() => Products, (product) => product.reviews)
+  @ManyToOne(() => Products, (product) => product.rates)
   product?: Products;
 }

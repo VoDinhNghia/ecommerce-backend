@@ -21,6 +21,8 @@ import { CreateProductDetailDto } from './dtos/products.create-detail.dto';
 import { UpdateProductDetailDto } from './dtos/products.update-detail.dto';
 import { CreateProductDiscountDto } from './dtos/products.create-discount.dto';
 import { UpdateProductDiscount } from './dtos/products.update-discount.dto';
+import { CreateProductReview } from './dtos/products.create-review.dto';
+import { ProductRate } from './entities/products.rate.entity';
 
 @Injectable()
 export class ProductsService {
@@ -37,6 +39,8 @@ export class ProductsService {
     private discountRepo: Repository<ProductDiscounts>,
     @InjectRepository(Categories)
     private categoryRepo: Repository<Categories>,
+    @InjectRepository(ProductRate)
+    private rateRepo: Repository<ProductRate>,
   ) {}
 
   async createProduct(productDto: CreateProductDto): Promise<Products> {
@@ -90,6 +94,7 @@ export class ProductsService {
         images: true,
         reviews: true,
         category: true,
+        rates: true,
       },
     });
     return {
@@ -157,6 +162,16 @@ export class ProductsService {
   async deleteDiscount(id: string): Promise<void> {
     await this.findDiscountById(id);
     await this.discountRepo.delete(id);
+  }
+
+  async createReview(
+    reviewDto: CreateProductReview,
+    userId: string,
+  ): Promise<ProductReview> {
+    const { productId } = reviewDto;
+    await this.findProductById(productId);
+    const result = await this.reviewRepo.save({ ...reviewDto, userId });
+    return result;
   }
 
   async validateCategory(categoryId: string): Promise<void> {
