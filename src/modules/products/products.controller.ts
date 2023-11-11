@@ -9,6 +9,7 @@ import {
   Delete,
   Query,
   Param,
+  Req,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { productController } from 'src/constants/constants.controller.name';
@@ -17,7 +18,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RoleGuard } from '../auth/guards/role-auth.guard';
 import { ErolesUser } from 'src/constants/constant';
 import { CreateProductDto } from './dtos/products.create.dto';
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import { ResponseRequest } from 'src/utils/utils.response-api';
 import { productMsg } from 'src/constants/constants.message.response';
 import { UpdateProductDto } from './dtos/products.update.dto';
@@ -26,6 +27,8 @@ import { CreateProductDetailDto } from './dtos/products.create-detail.dto';
 import { CreateProductDiscountDto } from './dtos/products.create-discount.dto';
 import { UpdateProductDiscount } from './dtos/products.update-discount.dto';
 import { UpdateProductDetailDto } from './dtos/products.update-detail.dto';
+import { CreateProductReview } from './dtos/products.create-review.dto';
+import { UserRequestHeaderDto } from '../auth/dtos/auth.user-request.dto';
 
 @Controller(productController.name)
 @ApiTags(productController.tag)
@@ -138,5 +141,46 @@ export class ProductsController {
   ): Promise<ResponseRequest> {
     await this.service.deleteDiscount(id);
     return new ResponseRequest(res, true, productMsg.deleteDiscount);
+  }
+
+  @Post('/review')
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @UseGuards(RoleGuard([ErolesUser.SUPPER_ADMIN, ErolesUser.USER]))
+  async createReview(
+    @Body() reviewDto: CreateProductReview,
+    @Res() res: Response,
+    @Req() req: Request,
+  ): Promise<ResponseRequest> {
+    const user: UserRequestHeaderDto = req?.user;
+    const result = await this.service.createReview(reviewDto, user?.userId);
+    return new ResponseRequest(res, result, productMsg.createReview);
+  }
+
+  @Put('/review/:id')
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @UseGuards(RoleGuard([ErolesUser.SUPPER_ADMIN, ErolesUser.USER]))
+  async updateReview(
+    @Param('id') id: string,
+    @Body() reviewDto: UpdateProductDiscount,
+    @Res() res: Response,
+    @Req() req: Request,
+  ): Promise<ResponseRequest> {
+    const user: UserRequestHeaderDto = req?.user;
+    await this.service.updateReview(id, user?.userId, reviewDto);
+    return new ResponseRequest(res, true, productMsg.updateReview);
+  }
+
+  @Delete('/review/:id')
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @UseGuards(RoleGuard([ErolesUser.SUPPER_ADMIN]))
+  async deleteReview(
+    @Param('id') id: string,
+    @Res() res: Response,
+  ): Promise<ResponseRequest> {
+    await this.service.deleteReview(id);
+    return new ResponseRequest(res, true, productMsg.deleteReview);
   }
 }
