@@ -183,4 +183,18 @@ export class ProductsController {
     await this.service.deleteReview(id);
     return new ResponseRequest(res, true, productMsg.deleteReview);
   }
+
+  @Post('/rate')
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @UseGuards(RoleGuard([ErolesUser.SUPPER_ADMIN, ErolesUser.USER]))
+  async createRate(
+    @Body() rateDto: CreateProductReview,
+    @Res() res: Response,
+    @Req() req: Request,
+  ): Promise<ResponseRequest> {
+    const user: UserRequestHeaderDto = req?.user;
+    await this.service.createRate(user?.userId, rateDto);
+    return new ResponseRequest(res, 'Ok', productMsg.createRate);
+  }
 }

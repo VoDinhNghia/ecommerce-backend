@@ -24,6 +24,7 @@ import { UpdateProductDiscount } from './dtos/products.update-discount.dto';
 import { CreateProductReview } from './dtos/products.create-review.dto';
 import { ProductRate } from './entities/products.rate.entity';
 import { UpdateProductReviewDto } from './dtos/products.update-review.dto';
+import { CreateProductRateDto } from './dtos/products.create-rate.dto';
 
 @Injectable()
 export class ProductsService {
@@ -204,6 +205,21 @@ export class ProductsService {
   async deleteReview(id: string): Promise<void> {
     const result = await this.findReviewById(id);
     await this.reviewRepo.softRemove(result);
+  }
+
+  async createRate(
+    userId: string,
+    rateDto: CreateProductRateDto,
+  ): Promise<void> {
+    const { productId, rate } = rateDto;
+    const result = await this.rateRepo.findOneBy({
+      user: Equal(userId),
+      product: Equal(productId),
+    });
+    if (result) {
+      await this.rateRepo.update(result?.id, { rate });
+    }
+    await this.rateRepo.save({ ...rateDto, userId });
   }
 
   async validateCategory(categoryId: string): Promise<void> {
