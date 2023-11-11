@@ -49,8 +49,5 @@ export const productMsg = {
   deleteReview: 'Delete product review success',
   notFoundReview: 'Product review not found',
   createRate: 'Create product rate success',
-  updateRate: 'Update product rate success',
-  deleteRate: 'Delete product rate success',
-  notFoundRate: 'Product rate not found',
   permissonUpdateReview: 'You are not permission update this review',
 };
