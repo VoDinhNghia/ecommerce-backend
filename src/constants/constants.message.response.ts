@@ -52,4 +52,5 @@ export const productMsg = {
   updateRate: 'Update product rate success',
   deleteRate: 'Delete product rate success',
   notFoundRate: 'Product rate not found',
+  permissonUpdateReview: 'You are not permission update this review',
 };

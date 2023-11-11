@@ -185,9 +185,16 @@ export class ProductsService {
 
   async updateReview(
     id: string,
+    userId: string,
     updateDto: UpdateProductReviewDto,
   ): Promise<void> {
-    await this.findReviewById(id);
+    const result = await this.findReviewById(id);
+    if (String(result?.user?.id) !== userId) {
+      new CommonException(
+        statusCodeRes.FORBIDDEN,
+        productMsg.permissonUpdateReview,
+      );
+    }
     await this.reviewRepo.update(id, {
       ...updateDto,
       updatedAt: new Date(),

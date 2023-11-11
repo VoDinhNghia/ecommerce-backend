@@ -1,14 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class UserResponseDto {
+export class UserRequestHeaderDto {
   @ApiProperty()
-  id?: string;
-
-  @ApiProperty()
-  createdAt?: Date;
-
-  @ApiProperty()
-  updatedAt?: Date;
+  userId?: string;
 
   @ApiProperty()
   email?: string;
@@ -23,17 +17,8 @@ export class UserResponseDto {
   middleName?: string;
 
   @ApiProperty()
-  avatar?: string;
-
-  @ApiProperty()
   role?: string;
 
   @ApiProperty()
   mobile?: string;
-
-  @ApiProperty()
-  gender?: string;
-
-  @ApiProperty()
-  address?: string;
 }
