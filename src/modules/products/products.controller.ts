@@ -10,8 +10,10 @@ import {
   Query,
   Param,
   Req,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { productController } from 'src/constants/constants.controller.name';
 import { ProductsService } from './products.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
@@ -29,6 +31,14 @@ import { UpdateProductDiscount } from './dtos/products.update-discount.dto';
 import { UpdateProductDetailDto } from './dtos/products.update-detail.dto';
 import { CreateProductReview } from './dtos/products.create-review.dto';
 import { UserRequestHeaderDto } from '../auth/dtos/auth.user-request.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import {
+  destinationAttachment,
+  fileName,
+  imageFileFilter,
+} from 'src/validates/validates.attachment.upload-file';
+import { diskStorage } from 'multer';
+import { CreateProductImageDto } from './dtos/products.create-image.dto';
 
 @Controller(productController.name)
 @ApiTags(productController.tag)
@@ -196,5 +206,40 @@ export class ProductsController {
     const user: UserRequestHeaderDto = req?.user;
     await this.service.createRate(user?.userId, rateDto);
     return new ResponseRequest(res, 'Ok', productMsg.createRate);
+  }
+
+  @Post('/images')
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @UseGuards(RoleGuard([ErolesUser.SUPPER_ADMIN]))
+  @ApiConsumes('multipart/form-data')
+  @UseInterceptors(
+    FileInterceptor('file', {
+      fileFilter: imageFileFilter,
+      storage: diskStorage({
+        destination: destinationAttachment,
+        filename: fileName,
+      }),
+    }),
+  )
+  async createImage(
+    @Res() res: Response,
+    @Body() body: CreateProductImageDto,
+    @UploadedFile('file') file: Express.Multer.File,
+  ): Promise<ResponseRequest> {
+    await this.service.createImage(body, file);
+    return new ResponseRequest(res, 'Ok', productMsg.createImage);
+  }
+
+  @Delete('/images/:id')
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @UseGuards(RoleGuard([ErolesUser.SUPPER_ADMIN]))
+  async deleteImage(
+    @Param('id') id: string,
+    @Res() res: Response,
+  ): Promise<ResponseRequest> {
+    await this.service.deleteImage(id);
+    return new ResponseRequest(res, true, productMsg.deleteImage);
   }
 }
