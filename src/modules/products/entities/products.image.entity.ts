@@ -15,6 +15,9 @@ export class ProductImages extends EntityBasic {
   @Column({ default: false })
   isAvatar?: boolean;
 
+  @Column()
+  path?: string;
+
   @ManyToOne(() => Products, (product) => product.images)
   product?: Products;
 }

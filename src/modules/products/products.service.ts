@@ -25,6 +25,9 @@ import { CreateProductReview } from './dtos/products.create-review.dto';
 import { ProductRate } from './entities/products.rate.entity';
 import { UpdateProductReviewDto } from './dtos/products.update-review.dto';
 import { CreateProductRateDto } from './dtos/products.create-rate.dto';
+import { CreateProductImageDto } from './dtos/products.create-image.dto';
+import { FileRequestDto } from 'src/utils/utils.file-request.dto';
+import { unlinkSync } from 'fs';
 
 @Injectable()
 export class ProductsService {
@@ -220,6 +223,28 @@ export class ProductsService {
       await this.rateRepo.update(result?.id, { rate });
     }
     await this.rateRepo.save({ ...rateDto, userId });
+  }
+
+  async createImage(
+    imageDto: CreateProductImageDto,
+    fileDto: FileRequestDto,
+  ): Promise<void> {
+    const dto = {
+      url: fileDto?.url,
+      originName: fileDto?.originalname,
+      productId: imageDto?.productId,
+      isAvatar: imageDto?.isAvatar,
+      path: fileDto?.path,
+    };
+    await this.imageRepo.save(dto);
+  }
+
+  async deleteImage(id: string): Promise<void> {
+    const result = await this.imageRepo.findOneBy({ id: Equal(id) });
+    if (!result) {
+      new CommonException(statusCodeRes.NOT_FOUND, productMsg.imageNotfound);
+    }
+    unlinkSync(result?.path);
   }
 
   async validateCategory(categoryId: string): Promise<void> {

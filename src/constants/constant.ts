@@ -32,3 +32,7 @@ export enum EstatusOrder {
   DELIVERED = 'DELIVERD',
   CANCLE = 'CANCLE',
 }
+
+export enum Emimetype {
+  IMAGE = 'image/jpeg',
+}

@@ -50,4 +50,7 @@ export const productMsg = {
   notFoundReview: 'Product review not found',
   createRate: 'Create product rate success',
   permissonUpdateReview: 'You are not permission update this review',
+  imageNotfound: 'Product image not found',
+  createImage: 'Create product image success',
+  deleteImage: 'Delete product image success',
 };
