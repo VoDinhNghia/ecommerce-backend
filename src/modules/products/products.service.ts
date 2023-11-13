@@ -244,6 +244,7 @@ export class ProductsService {
     if (!result) {
       new CommonException(statusCodeRes.NOT_FOUND, productMsg.imageNotfound);
     }
+    await this.imageRepo.delete(id);
     unlinkSync(result?.path);
   }
 
