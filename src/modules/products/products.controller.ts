@@ -211,6 +211,7 @@ export class ProductsController {
   @Post('/images')
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
+  @UseGuards(RoleGuard([ErolesUser.SUPPER_ADMIN]))
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(
     FileInterceptor('file', {
@@ -233,6 +234,7 @@ export class ProductsController {
   @Delete('/images/:id')
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
+  @UseGuards(RoleGuard([ErolesUser.SUPPER_ADMIN]))
   async deleteImage(
     @Param('id') id: string,
     @Res() res: Response,
