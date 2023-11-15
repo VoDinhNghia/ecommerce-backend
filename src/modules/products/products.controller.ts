@@ -88,7 +88,7 @@ export class ProductsController {
     @Res() res: Response,
   ): Promise<ResponseRequest> {
     const results = await this.service.findAllProducts(queryDto);
-    return new ResponseRequest(res, results, productMsg.deleteProduct);
+    return new ResponseRequest(res, results, productMsg.getListProduct);
   }
 
   @Post('/detail')

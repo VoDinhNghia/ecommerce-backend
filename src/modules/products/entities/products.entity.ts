@@ -28,6 +28,9 @@ export class Products extends EntityBasic {
   @Column()
   quantity?: number;
 
+  @Column()
+  categoryId?: string;
+
   @ManyToOne(() => Categories, (category) => category.products)
   category?: Categories;
 
@@ -52,7 +55,7 @@ export class Products extends EntityBasic {
   })
   discounts?: ProductDiscounts[];
 
-  @ManyToOne(() => ProductRate, (rate) => rate?.product, {
+  @OneToMany(() => ProductRate, (rate) => rate?.product, {
     cascade: ['soft-remove', 'recover'],
   })
   rates?: ProductRate[];
