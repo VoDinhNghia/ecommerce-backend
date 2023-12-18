@@ -31,6 +31,9 @@ export class Products extends EntityBasic {
   @Column()
   categoryId?: string;
 
+  @Column({ nullable: true })
+  detailId?: string;
+
   @ManyToOne(() => Categories, (category) => category.products)
   category?: Categories;
 

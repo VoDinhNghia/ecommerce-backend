@@ -114,6 +114,7 @@ export class ProductsService {
     const { productId } = detailDto;
     await this.findProductById(productId);
     const result = await this.detailRepo.save(detailDto);
+    await this.productRepo.update(productId, { detailId: result?.id });
     return result;
   }
 
