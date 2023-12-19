@@ -15,6 +15,9 @@ export class ProductDetail extends EntityBasic {
   @Column()
   country?: string;
 
+  @Column()
+  productId?: string;
+
   @Column({ nullable: true })
   inputPower?: string;
 

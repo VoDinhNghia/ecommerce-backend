@@ -18,6 +18,9 @@ export class ProductImages extends EntityBasic {
   @Column()
   path?: string;
 
+  @Column()
+  productId?: string;
+
   @ManyToOne(() => Products, (product) => product.images)
   product?: Products;
 }
