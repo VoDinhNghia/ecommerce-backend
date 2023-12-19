@@ -10,6 +10,12 @@ export class ProductReview extends EntityBasic {
   @Column()
   content?: string;
 
+  @Column()
+  productId?: string;
+
+  @Column()
+  userId?: string;
+
   @ManyToOne(() => Users, (user) => user.reviews)
   user?: Users;
 

@@ -10,6 +10,12 @@ export class ProductRate extends EntityBasic {
   @Column()
   rate?: number;
 
+  @Column()
+  productId?: string;
+
+  @Column()
+  userId?: string;
+
   @ManyToOne(() => Users, (user) => user.rates)
   user?: Users;
 

@@ -18,6 +18,9 @@ export class ProductDiscounts extends EntityBasic {
   @Column({ nullable: true })
   description?: string;
 
+  @Column()
+  productId?: string;
+
   @ManyToOne(() => Products, (product) => product.discounts)
   product?: Products;
 }

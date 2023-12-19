@@ -39,6 +39,7 @@ export const productMsg = {
   getListProduct: 'Get list product success',
   createDetail: 'Create product detail success',
   updateDetail: 'Update product detail success',
+  detailExisted: 'Detail product existed',
   detailNotFound: 'Product detail not found',
   createDiscount: 'Create product discount success',
   updateDiscount: 'Update product discount success',

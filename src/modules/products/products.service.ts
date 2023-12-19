@@ -83,11 +83,14 @@ export class ProductsService {
   async findAllProducts(
     queryDto: QueryProductDto,
   ): Promise<{ results: Products[]; total: number }> {
-    const { limit, page, searchKey } = queryDto;
+    const { limit, page, searchKey, categoryId } = queryDto;
     const query: IqueryProduct = {};
     const total = await this.productRepo.count();
     if (searchKey) {
       query.name = Like(`%${searchKey}%`);
+    }
+    if (categoryId) {
+      query.categoryId = Equal(categoryId);
     }
     const results = await this.productRepo.find({
       where: query,
@@ -113,6 +116,12 @@ export class ProductsService {
   ): Promise<ProductDetail> {
     const { productId } = detailDto;
     await this.findProductById(productId);
+    const validDetail = await this.detailRepo.findOneBy({
+      productId: Equal(productId),
+    });
+    if (validDetail) {
+      new CommonException(statusCodeRes.CONFLICT, productMsg.detailExisted);
+    }
     const result = await this.detailRepo.save(detailDto);
     await this.productRepo.update(productId, { detailId: result?.id });
     return result;
