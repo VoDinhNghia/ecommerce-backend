@@ -240,7 +240,7 @@ export class ProductsService {
     fileDto: FileRequestDto,
   ): Promise<void> {
     const dto = {
-      url: fileDto?.url,
+      url: fileDto?.filename,
       originName: fileDto?.originalname,
       productId: imageDto?.productId,
       isAvatar: imageDto?.isAvatar,

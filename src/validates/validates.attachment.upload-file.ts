@@ -30,7 +30,7 @@ export const destinationAttachment = (
   file: Record<string, any>,
   cb: any,
 ) => {
-  cb(null, join(__dirname, '../../..', './src/public/products'));
+  cb(null, join(__dirname, '../..', './src/public/products'));
 };
 
 export const fileName = (
