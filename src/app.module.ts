@@ -15,11 +15,16 @@ import { ServicesUsModule } from './modules/services-us/services-us.module';
 import { SlideImagesModule } from './modules/slide-images/slide-images.module';
 import { StoreGeneralInfoModule } from './modules/store-general-info/store-general-info.module';
 import { TutorialsModule } from './modules/tutorials/tutorials.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: `.env`,
+    }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', './src/public/products'),
     }),
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
