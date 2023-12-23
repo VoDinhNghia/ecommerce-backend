@@ -8,6 +8,7 @@ import { CommonException } from 'src/exceptions/exeception.common-error';
 import { statusCodeRes } from 'src/constants/constants.http-status-code';
 import { slideImageMsg } from 'src/constants/constants.message.response';
 import { unlinkSync } from 'fs';
+import { UpdateSlideImagesDto } from './dtos/slide-images.update.dto';
 
 @Injectable()
 export class SlideImagesService {
@@ -39,11 +40,22 @@ export class SlideImagesService {
   }
 
   async findAll(): Promise<{ results: SlideImageAdv[]; total: number }> {
-    const results = await this.slideImageRepo.find();
+    const total = await this.slideImageRepo.count();
+    const results = await this.slideImageRepo.find({
+      where: { isActive: true },
+    });
     return {
       results,
-      total: results?.length,
+      total,
     };
+  }
+
+  async update(id: string, slideDto: UpdateSlideImagesDto): Promise<void> {
+    await this.findById(id);
+    await this.slideImageRepo.update(id, {
+      ...slideDto,
+      updatedAt: new Date(),
+    });
   }
 
   async delete(id: string): Promise<void> {

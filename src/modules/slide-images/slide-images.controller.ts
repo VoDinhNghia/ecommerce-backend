@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   Post,
+  Put,
   Res,
   UploadedFile,
   UseGuards,
@@ -27,6 +28,7 @@ import { ResponseRequest } from 'src/utils/utils.response-api';
 import { slideImageMsg } from 'src/constants/constants.message.response';
 import { Response } from 'express';
 import { CreateSlideImageDto } from './dtos/slide-images.create.dto';
+import { UpdateSlideImagesDto } from './dtos/slide-images.update.dto';
 
 @Controller(slideImageController.name)
 @ApiTags(slideImageController.tag)
@@ -72,5 +74,18 @@ export class SlideImagesController {
   ): Promise<ResponseRequest> {
     await this.service.delete(id);
     return new ResponseRequest(res, 'OK', slideImageMsg.delete);
+  }
+
+  @Put('/:id')
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @UseGuards(RoleGuard([ErolesUser.SUPPER_ADMIN]))
+  async update(
+    @Param('id') id: string,
+    @Body() slideDto: UpdateSlideImagesDto,
+    @Res() res: Response,
+  ): Promise<ResponseRequest> {
+    await this.service.update(id, slideDto);
+    return new ResponseRequest(res, 'OK', slideImageMsg.update);
   }
 }
