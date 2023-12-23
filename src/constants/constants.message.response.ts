@@ -55,3 +55,10 @@ export const productMsg = {
   createImage: 'Create product image success',
   deleteImage: 'Delete product image success',
 };
+
+export const slideImageMsg = {
+  create: 'Create slide image adv success',
+  delete: 'Delete slide image adv success',
+  notfound: 'Slide image adv not found',
+  getList: 'Get list slide image adv success',
+};

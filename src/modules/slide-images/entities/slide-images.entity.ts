@@ -16,4 +16,7 @@ export class SlideImageAdv extends EntityBasic {
 
   @Column()
   url?: string;
+
+  @Column()
+  path?: string;
 }
