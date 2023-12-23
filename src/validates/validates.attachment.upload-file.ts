@@ -33,6 +33,14 @@ export const destinationAttachment = (
   cb(null, join(__dirname, '../..', './src/public/products'));
 };
 
+export const destinationSlideImg = (
+  req: Record<any, any>,
+  file: Record<string, any>,
+  cb: any,
+) => {
+  cb(null, join(__dirname, '../..', './src/public/slide-images'));
+};
+
 export const fileName = (
   req: Record<any, any>,
   file: Record<string, any>,

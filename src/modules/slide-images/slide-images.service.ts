@@ -7,6 +7,7 @@ import { FileRequestDto } from 'src/utils/utils.file-request.dto';
 import { CommonException } from 'src/exceptions/exeception.common-error';
 import { statusCodeRes } from 'src/constants/constants.http-status-code';
 import { slideImageMsg } from 'src/constants/constants.message.response';
+import { unlinkSync } from 'fs';
 
 @Injectable()
 export class SlideImagesService {
@@ -46,7 +47,8 @@ export class SlideImagesService {
   }
 
   async delete(id: string): Promise<void> {
-    await this.findById(id);
+    const result = await this.findById(id);
     await this.slideImageRepo.delete(id);
+    unlinkSync(result?.path);
   }
 }
