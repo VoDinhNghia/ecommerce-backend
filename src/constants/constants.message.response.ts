@@ -61,4 +61,5 @@ export const slideImageMsg = {
   delete: 'Delete slide image adv success',
   notfound: 'Slide image adv not found',
   getList: 'Get list slide image adv success',
+  update: 'Update slide image success',
 };
