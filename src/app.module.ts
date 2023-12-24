@@ -24,7 +24,7 @@ import { join } from 'path';
       envFilePath: `.env`,
     }),
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', './src/public/products'),
+      rootPath: join(__dirname, '..', './src/public'),
     }),
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
