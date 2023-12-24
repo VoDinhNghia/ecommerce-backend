@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { SlideImageAdv } from './entities/slide-images.entity';
-import { Equal, Repository } from 'typeorm';
+import { Equal, Like, Repository } from 'typeorm';
 import { CreateSlideImageDto } from './dtos/slide-images.create.dto';
 import { FileRequestDto } from 'src/utils/utils.file-request.dto';
 import { CommonException } from 'src/exceptions/exeception.common-error';
@@ -9,6 +9,8 @@ import { statusCodeRes } from 'src/constants/constants.http-status-code';
 import { slideImageMsg } from 'src/constants/constants.message.response';
 import { unlinkSync } from 'fs';
 import { UpdateSlideImagesDto } from './dtos/slide-images.update.dto';
+import { QuerySlideImageDto } from './dtos/slide-images.query.dto';
+import { IquerySlideImage } from './interfaces/slide-images.interface';
 
 @Injectable()
 export class SlideImagesService {
@@ -39,10 +41,22 @@ export class SlideImagesService {
     return result;
   }
 
-  async findAll(): Promise<{ results: SlideImageAdv[]; total: number }> {
+  async findAll(
+    queyDto: QuerySlideImageDto,
+  ): Promise<{ results: SlideImageAdv[]; total: number }> {
+    const { isActive, limit, page, searchKey } = queyDto;
     const total = await this.slideImageRepo.count();
+    const query: IquerySlideImage = {};
+    if (searchKey) {
+      query.originName = Like(`%${searchKey}%`);
+    }
+    if (isActive) {
+      query.isActive = isActive;
+    }
     const results = await this.slideImageRepo.find({
-      where: { isActive: true },
+      where: query,
+      skip: limit && page ? Number(limit) * (Number(page) - 1) : 0,
+      take: limit ? Number(limit) : total,
     });
     return {
       results,

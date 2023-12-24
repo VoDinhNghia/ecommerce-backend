@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
   Res,
   UploadedFile,
   UseGuards,
@@ -29,6 +30,7 @@ import { slideImageMsg } from 'src/constants/constants.message.response';
 import { Response } from 'express';
 import { CreateSlideImageDto } from './dtos/slide-images.create.dto';
 import { UpdateSlideImagesDto } from './dtos/slide-images.update.dto';
+import { QuerySlideImageDto } from './dtos/slide-images.query.dto';
 
 @Controller(slideImageController.name)
 @ApiTags(slideImageController.tag)
@@ -59,8 +61,11 @@ export class SlideImagesController {
   }
 
   @Get()
-  async findAllSlide(@Res() res: Response): Promise<ResponseRequest> {
-    const result = await this.service.findAll();
+  async findAllSlide(
+    @Res() res: Response,
+    @Query() queryDto: QuerySlideImageDto,
+  ): Promise<ResponseRequest> {
+    const result = await this.service.findAll(queryDto);
     return new ResponseRequest(res, result, slideImageMsg.getList);
   }
 
