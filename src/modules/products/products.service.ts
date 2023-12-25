@@ -63,6 +63,24 @@ export class ProductsService {
     return result;
   }
 
+  async findProductDetail(id: string): Promise<Products> {
+    const results = await this.productRepo.find({
+      where: { id: Equal(id) },
+      relations: {
+        reviews: true,
+        discounts: true,
+        images: true,
+        category: true,
+        rates: true,
+        detail: true,
+      },
+    });
+    if (results?.length <= 0) {
+      new CommonException(statusCodeRes.NOT_FOUND, productMsg.notFoundProduct);
+    }
+    return results[0];
+  }
+
   async updateProduct(id: string, productDto: UpdateProductDto): Promise<void> {
     const { categoryId } = productDto;
     if (categoryId) {
