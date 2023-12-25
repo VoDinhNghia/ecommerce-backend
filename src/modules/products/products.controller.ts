@@ -242,4 +242,13 @@ export class ProductsController {
     await this.service.deleteImage(id);
     return new ResponseRequest(res, true, productMsg.deleteImage);
   }
+
+  @Get('/:id')
+  async findProductDetail(
+    @Param('id') id: string,
+    @Res() res: Response,
+  ): Promise<ResponseRequest> {
+    const result = await this.service.findProductDetail(id);
+    return new ResponseRequest(res, result, productMsg.getProductDetail);
+  }
 }
