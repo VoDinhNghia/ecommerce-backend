@@ -244,13 +244,14 @@ export class ProductsService {
   ): Promise<void> {
     const { productId, rate } = rateDto;
     const result = await this.rateRepo.findOneBy({
-      user: Equal(userId),
-      product: Equal(productId),
+      userId: Equal(userId),
+      productId: Equal(productId),
     });
     if (result) {
       await this.rateRepo.update(result?.id, { rate });
+    } else {
+      await this.rateRepo.save({ ...rateDto, userId });
     }
-    await this.rateRepo.save({ ...rateDto, userId });
   }
 
   async createImage(
