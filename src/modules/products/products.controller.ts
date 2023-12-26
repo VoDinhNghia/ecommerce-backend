@@ -39,6 +39,7 @@ import {
 } from 'src/validates/validates.attachment.upload-file';
 import { diskStorage } from 'multer';
 import { CreateProductImageDto } from './dtos/products.create-image.dto';
+import { CreateProductRateDto } from './dtos/products.create-rate.dto';
 
 @Controller(productController.name)
 @ApiTags(productController.tag)
@@ -199,7 +200,7 @@ export class ProductsController {
   @UseGuards(JwtAuthGuard)
   @UseGuards(RoleGuard([ErolesUser.SUPPER_ADMIN, ErolesUser.USER]))
   async createRate(
-    @Body() rateDto: CreateProductReview,
+    @Body() rateDto: CreateProductRateDto,
     @Res() res: Response,
     @Req() req: Request,
   ): Promise<ResponseRequest> {
