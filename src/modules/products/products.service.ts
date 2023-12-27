@@ -67,11 +67,15 @@ export class ProductsService {
     const results = await this.productRepo.find({
       where: { id: Equal(id) },
       relations: {
-        reviews: true,
+        reviews: {
+          user: true,
+        },
         discounts: true,
         images: true,
         category: true,
-        rates: true,
+        rates: {
+          user: true,
+        },
         detail: true,
       },
     });
